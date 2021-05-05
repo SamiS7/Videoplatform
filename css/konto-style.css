@@ -1,0 +1,146 @@
+.content {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    margin-top: -2rem;
+}
+
+.nav-box {
+    margin-top: -1rem;
+    background-color: rgb(0, 0, 0);
+}
+
+.nav {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: calc(100vh - (50px));
+}
+
+.nav button {
+    outline: none;
+    border: none;
+    color: rgb(206, 198, 198);
+    height: 10vh;
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+    border-bottom: 1px solid rgb(24, 24, 24);
+}
+
+.nav button:hover {
+    background-color: rgb(25, 26, 26);
+}
+
+.nav-ellipsis {
+    display: none;
+    position: sticky;
+    top: 10px;
+    height: 30px;
+    z-index: 2;
+    width: 30px;
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    border-radius: 50%;
+    align-items: center;
+}
+
+.cover-box>.editablePPic-box {
+    display: grid;
+    grid-template-columns: auto 20px;
+}
+
+.ellipsis-box {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 10px;
+}
+
+.ellipsis-box .fa-ellipsis-v {
+    background-color: rgba(0, 0, 0, 0.363);
+    padding: 5px;
+}
+
+#edit-options {
+    position: absolute;
+    right: 30px;
+    background-color: rgb(0, 0, 0);
+    height: 120px;
+    width: 150px;
+}
+
+#edit-options p {
+    margin: 0;
+    padding: 1vh 1vw;
+    border-bottom: 1px solid rgb(41, 41, 41);
+}
+
+#clickedOption * {
+    width: 100%;
+}
+
+#edit-options p:hover {
+    background-color: rgb(54, 54, 54);
+}
+
+#uploadMsg {
+    position: absolute;
+    background-color: aliceblue;
+    color: black;
+    width: 200px;
+    padding: 5px;
+}
+
+.videosInAcc-box {
+    margin-top: -1rem;
+}
+
+.uploadV-box form {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin-top: 20px;
+}
+
+.uploadV-box form>*, .uploadV-box button {
+    height: 7vh;
+    margin-bottom: 20px;
+}
+
+.uploadV-box form input[type=text] {
+    border: 1px solid rgb(0, 140, 255);
+    background-color: rgb(37, 35, 35);
+    color: white;
+}
+
+.uploadV-box button {
+    background-color: rgb(122, 122, 122);
+    border: none;
+}
+
+.uploadV-box button:hover {
+    background-color: rgb(0, 140, 255);
+}
+
+.uploadV-box button:active {
+    background-color: rgb(0, 255, 55);
+}
+
+.uploadV-box #meldung2 {
+    margin: 20px;
+}
+
+.likedVideos-box, .history-box, .abos-box, .uploadV-box, .videosInAcc-box {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .nav {
+        display: none;
+    }
+    .nav-ellipsis {
+        display: grid;
+    }
+    .content {
+        grid-template-columns: 0% 1fr;
+    }
+    .abos-box {
+        grid-template-columns: 1fr 1fr;
+    }
+}

@@ -1,0 +1,19 @@
+.abos-box {
+    display: grid;
+}
+
+.abos-box>div {
+    background-color: rgb(31, 29, 29);
+    margin: 5px;
+    padding: 10px;
+    text-align: center;
+}
+
+.abos-box a {
+    color: white;
+}
+
+.abos-box img {
+    border-radius: 50%;
+    width: 90%;
+}

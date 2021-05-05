@@ -1,0 +1,63 @@
+.cover-box {
+    height: 50vh;
+    background-image: url('../img/cover2.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 0;
+    display: grid;
+    align-items: end;
+}
+
+.cover-box .pPic-box {
+    background-color: rgba(0, 0, 0, 0.329);
+    width: 25vw;
+    height: 15vw;
+    padding: 5px;
+    overflow: hidden;
+}
+
+.cover-box .pPic-box img {
+    height: 80%;
+    border-radius: 50%;
+}
+
+.cover-box .pPic-box div {
+    display: flex;
+}
+
+.pPic-box div * {
+    height: 36px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.headline-box {
+    margin-left: 1%;
+    width: 98%;
+}
+
+.headline {
+    color: black;
+    margin-bottom: 0;
+    text-align: center;
+    background: linear-gradient(to right, rgb(0, 0, 0), rgb(42, 93, 233), rgb(0, 0, 0));
+    padding: 1vh 0;
+    font-size: 200%;
+    margin-bottom: 2vh;
+}
+
+#follow, .ellipsis-box:is(i, p) {
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    .cover-box {
+        height: 20vh;
+    }
+    .cover-box .pPic-box {
+        width: 50vw;
+        height: 25vw;
+    }
+}

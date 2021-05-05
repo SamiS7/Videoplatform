@@ -1,0 +1,237 @@
+/* CSS FOR index.html, Menu, Thumbnail und Thumbnail-Containers */
+
+* {
+    outline: none;
+}
+*:focus {
+    outline: none !important;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: rgb(37, 35, 35);
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+}
+
+.menu {
+    background-color: black;
+}
+
+.menu>a, .search-box {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu a {
+    font-size: 150%;
+}
+
+.dropDown {
+    color: rgb(202, 202, 202);
+}
+
+.dropDown h4 {
+    height: 49px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.dropDownContent {
+    display: grid;
+    grid-template-columns: 1fr;
+    position: absolute;
+    background-color: rgb(0, 0, 0);
+    z-index: 5;
+    text-align: center;
+    width: 100%;
+}
+
+.menu a:hover {
+    background-color: rgb(29, 23, 23);
+    color: rgb(21, 255, 0);
+}
+
+.jump-box-container {
+    width: 98%;
+    overflow: hidden;
+    margin-left: 1%;
+}
+
+body::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: rgba(177, 177, 177, 0.411);
+}
+
+.jump-box-container::-webkit-scrollbar {
+    height: 1px;
+}
+
+.jump-box-container::-webkit-scrollbar-thumb {
+    background: rgb(255, 255, 255);
+}
+
+.jump-box {
+    display: flex;
+    flex-wrap: nowrap;
+    transform: translate(0px);
+}
+
+.jump-box a img {
+    height: 232px;
+    margin-right: 10px;
+}
+
+.scroll-button-to-left, .scroll-button-to-right {
+    height: 232px;
+    position: absolute;
+    background-color: rgba(22, 21, 21, 0.5);
+    color: white;
+    font-size: 200%;
+    border: none;
+}
+
+.scroll-button-to-right {
+    right: 1%;
+}
+
+.scroll-button-to-left {
+    display: none;
+}
+
+.scroll-button-to-left:hover, .scroll-button-to-right:hover {
+    background-color: rgba(22, 21, 21, 0.8);
+}
+
+.title {
+    position: absolute;
+    transform: translateY(-30px);
+    text-align: center;
+    display: none;
+    margin: 0;
+    color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0.479);
+    height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.video-box a:hover .title{
+    display: block;
+}
+
+.search-input {
+    display: none;
+    height: 95%;
+    background-color: rgb(124, 123, 123);
+    color: white;
+}
+
+.fa-search {
+    font-size: 20px;
+    color: rgb(0, 89, 255);
+    transform: translate(-30px);
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.logInBox button, input, .scroll-button-to-left, .scroll-button-to-right {
+    outline: none;
+}
+
+.video-box-nScroll {
+    display: grid;
+    width: 99%;
+    overflow: hidden;
+    margin-left: 1%;
+}
+
+.video-box-nScroll a img {
+    width: 100%;
+}
+
+.video-box-nScroll a {
+    margin: 0 10px 10px 0;
+}
+
+@media (min-width: 992px) {
+    .video-box-nScroll {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    .logInBox {
+        height: 80vh;
+    }
+    .abos-box {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 600px) and (max-width: 992px) {
+    .video-box-nScroll {
+        grid-template-columns: 1fr 1fr;
+    }
+    .menu>a, .menu div {
+        border-bottom: 1px solid white;
+    }
+    .logInBox {
+        height: 60vh;
+    }
+    .abos-box {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .video-box-nScroll {
+        grid-template-columns: 1fr;
+    }
+    .menu>a, .menu div {
+        border-bottom: 1px solid white;
+    }
+    .logInBox {
+        height: auto;
+    }
+    .title {
+        display: block;
+    }
+    .jump-box-container {
+        overflow-x: scroll;
+    }
+    .scroll-button-to-left, .scroll-button-to-right {
+        display: none !important;
+    }
+    .jump-box a img {
+        height: auto;
+        width: 98vw;
+    }
+    .pVideo-box>div>* {
+        width: 90vw !important;    
+    }
+    .pVideo-box .abo-box {
+        height: 20vh !important;
+    }
+    .pVideo-box a img {
+        width: 30%;
+    }
+    .video-box-nScroll a {
+        margin-right: 0;
+        padding-right: 1vw;
+    }
+}

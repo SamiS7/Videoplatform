@@ -1,0 +1,21 @@
+form select, .search-button {
+    width: 100%;
+    border: none;
+    height: 7vh;
+    color: white;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+form select {
+    background-color: rgb(25, 41, 87);
+}
+form select option {
+    height: 150%;
+}
+.search-button {
+    background-color: rgb(0, 132, 255);
+    border: 5px double white;
+}
+.select-options button {
+    outline: none;
+}

@@ -1,0 +1,56 @@
+.logInBox, .signUpBox {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    padding: 0 5px;
+}
+
+.logInBox input, .logInBox button {
+    text-align: center;
+    margin: 1vh 0;
+    height: 7vh;
+}
+
+.logInBox input {
+    border: 1px solid rgb(0, 140, 255);
+    background-color: rgb(37, 35, 35);
+    color: white;
+}
+
+.logInBox button {
+    background-color: rgb(122, 122, 122);
+    color: black;
+}
+
+.logInBox button:hover {
+    background-color: rgb(0, 140, 255);
+}
+
+.logInBox button:active {
+    background-color: rgb(0, 255, 55);
+}
+
+.signUpBox input, .signUpBox button {
+    text-align: center;
+    margin: 1vh 0;
+    height: 7vh;
+}
+
+.signUpBox input {
+    border: 1px solid rgb(0, 140, 255);
+    background-color: rgb(37, 35, 35);
+    color: white;
+}
+
+.signUpBox button {
+    background-color: rgb(122, 122, 122);
+    color: black;
+}
+
+.signUpBox button:hover {
+    background-color: rgb(0, 140, 255);
+}
+
+.signUpBox button:active {
+    background-color: rgb(0, 255, 55);
+}

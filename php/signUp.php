@@ -21,10 +21,9 @@ if (isset($_POST['signUpData'])) {
     $bDay = new DateTime($signUpData->bDay);
     $diff = $now->getTimestamp() - $bDay->getTimestamp();
     $output;
+    $ePat = "/^[A-zäöüßÄÖÜ\.\_\-\d]{2,40}@([A-z\-\_]+\.){1,5}[A-z]{2,10}$/i";
 
-
-
-    if (strlen($signUpData->name) >= 3 && strlen($signUpData->name) <= 25 && $diff > 0 && strlen($signUpData->country) > 3 && strlen($signUpData->country) <= 30 && strlen($signUpData->pass1) > 4 && $signUpData->pass1 == $signUpData->pass2 && strlen($signUpData->email) > 5 && strlen($signUpData->email) <= 50) {
+    if (strlen($signUpData->name) >= 3 && strlen($signUpData->name) <= 25 && $diff > 0 && strlen($signUpData->country) > 3 && strlen($signUpData->country) <= 30 && strlen($signUpData->pass1) > 4 && $signUpData->pass1 == $signUpData->pass2 && preg_match($ePat, $signUpData->email)) {
         $sql = "select name from konto where name = '$signUpData->name'";
         $db_data =
             $data = new stdClass();
@@ -59,9 +58,13 @@ function creatAccount($sData, $connect)
     $sData->abos = 0;
     $key = fKey($sData->name . $sData->pass1);
 
+    if ($connect->query("SELECT id from konto where id = '$key'")->num_rows > 0) {
+        $key = $sData->name . '-' . $key;
+    }
+
     $sData->id = $key;
     $sData->pass1 = MD5('Videos' . $sData->pass1);
-    $insertStatement = "INSERT INTO `konto` VALUES('$sData->name', '$sData->bDay', '$sData->country', '$sData->pass1', '$sData->creatingDate', $sData->abos, $sData->id, '$sData->email')";
+    $insertStatement = "INSERT INTO `konto` VALUES('$sData->name', '$sData->bDay', '$sData->country', '$sData->pass1', '$sData->creatingDate', $sData->abos, '$sData->id', '$sData->email')";
     if ($connect->query($insertStatement)) {
         session_start();
         $_SESSION['id'] = $key;

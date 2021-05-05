@@ -43,7 +43,7 @@ if (isset($_POST['checkId'])) {
     $id = $_POST['checkId'];
     $output;
 
-    $res = $connect->query("SELECT name FROM konto where id = $id");
+    $res = $connect->query("SELECT name FROM konto where id = '$id'");
         if ($res->num_rows > 0) {
             $res = $res->fetch_assoc();
             $output = ['message' => true, 'name' => $res['name']];

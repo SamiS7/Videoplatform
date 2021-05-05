@@ -1,12 +1,14 @@
 <?php
 function output($suc, $str, $f = null)
 {
+
     if (!$suc) {
         echo json_encode(['success' => false, 'output' => $str]);
-        exit;
     } else {
         echo json_encode(['success' => true, 'output' => $str, 'fileName' => $f]);
     }
+    $GLOBALS['connection']->close();
+    exit;
 }
 
 session_start();
@@ -19,6 +21,10 @@ $db_datenbank = 'video-projekt';
 $db_username = 'video-projekt';
 $db_password = 'passw';
 $connect = new mysqli($db_host, $db_username, $db_password, $db_datenbank);
+
+if ($connect->connect_error) {
+    die("Datenbank connection failed" . $connect->connect_error);
+}
 
 $profArrName = 'profileFile';
 if (isset($_FILES[$profArrName])) {
@@ -46,32 +52,26 @@ if (isset($_FILES[$profArrName])) {
         output(false, 'Profilbild darf nicht größer sein als 400 KB!');
     }
 
-    if ($connect->connect_error) {
-        die("Datenbank connection failed" . $connect->connect_error);
-    }
-
     $usrName;
     $id = $_SESSION['id'];
-    $res = $connect->query("SELECT name FROM konto WHERE id = $id");
+    $res = $connect->query("SELECT name FROM konto WHERE id = '$id'");
     if ($res->num_rows > 0) {
         $res = $res->fetch_assoc();
         $usrName = $res['name'];
         $fileName = $usrName . 'ProfImg.' . $imgType;
         $changeStatement;
-        if ($connect->query("SELECT * FROM profilandcoverpic WHERE id = $id")->num_rows > 0) {
-            $changeStatement = "UPDATE profilandcoverpic SET pName = '$fileName' WHERE id = $id";
+        if ($connect->query("SELECT * FROM profilandcoverpic WHERE id = '$id'")->num_rows > 0) {
+            $changeStatement = "UPDATE profilandcoverpic SET pName = '$fileName' WHERE id = '$id'";
         } else {
-            $changeStatement = "INSERT INTO profilandcoverpic VALUE($id, '$fileName', '')";
+            $changeStatement = "INSERT INTO profilandcoverpic VALUE('$id', '$fileName', '')";
         }
 
         if (move_uploaded_file($sentImg, $dir . $fileName) && $connect->query($changeStatement)) {
             output(true, 'Ihr Profilbild wurde geändert!', $fileName);
         } else {
-            $connect->close();
             output(false, 'Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.');
         }
     } else {
-        $connect->close();
         output(false, 'Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.');
     }
 }
@@ -100,35 +100,28 @@ if (isset($_FILES[$coverArrName])) {
         output(false, 'Coverbild darf nicht größer sein als 700 KB!');
     }
 
-    if ($connect->connect_error) {
-        die("Datenbank connection failed" . $connect->connect_error);
-    }
-
     $usrName;
     $id = $_SESSION['id'];
-    $res = $connect->query("SELECT name FROM konto WHERE id = $id");
+    $res = $connect->query("SELECT name FROM konto WHERE id = '$id'");
     if ($res->num_rows > 0) {
         $res = $res->fetch_assoc();
         $usrName = $res['name'];
         $fileName = $usrName . 'CoverImg.' . $imgType;
         $changeStatement;
-        if ($connect->query("SELECT * FROM profilandcoverpic WHERE id = $id")->num_rows > 0) {
-            $changeStatement = "UPDATE profilandcoverpic SET cName = '$fileName' WHERE id = $id";
+        if ($connect->query("SELECT * FROM profilandcoverpic WHERE id = '$id'")->num_rows > 0) {
+            $changeStatement = "UPDATE profilandcoverpic SET cName = '$fileName' WHERE id = '$id'";
         } else {
-            $changeStatement = "INSERT INTO profilandcoverpic VALUE($id, '', '$fileName')";
+            $changeStatement = "INSERT INTO profilandcoverpic VALUE('$id', '', '$fileName')";
         }
 
         if (move_uploaded_file($sentImg, $dir . $fileName) && $connect->query($changeStatement)) {
             output(true, 'Ihr Coverbild wurde geändert!', $fileName);
         } else {
-            $connect->close();
             output(false, 'Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.');
         }
     } else {
-        $connect->close();
         output(false, 'Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.');
     }
-    $connect->close();
 }
 
 if (isset($_FILES['video']) && isset($_FILES['thumb'])) {
@@ -161,20 +154,16 @@ if (isset($_FILES['video']) && isset($_FILES['thumb'])) {
         output(false, 'Thumbnail darf nicht größer sein als 400 KB!');
     }
 
-    if ($connect->connect_error) {
-        die("Datenbank connection failed" . $connect->connect_error);
-    }
-
     $id = $_SESSION['id'];
 
-    if ($res = $connect->query("SELECT name FROM konto where id = $id")) {
+    if ($res = $connect->query("SELECT name FROM konto where id = '$id'")) {
         $usrName = $res->fetch_assoc()['name'];
-        $videoCount = $connect->query("SELECT * FROM Videos WHERE owner = $id")->num_rows;
+        $videoCount = $connect->query("SELECT * FROM Videos WHERE owner = '$id'")->num_rows;
         $videoCount += 10;
         while ($connect->query("SELECT * FROM Videos WHERE id = '$videoCount'")->num_rows > 0) {
             $videoCount++;
         }
-        $insertStatement = "INSERT INTO videos VALUE('$videoCount.$vType', null, $id, '$title', 0, '$cat', '$tags', '$videoCount.$tType', NOW())";
+        $insertStatement = "INSERT INTO videos VALUE('$videoCount.$vType', null, '$id', '$title', 0, '$cat', '$tags', '$videoCount.$tType', NOW())";
         if (
             $connect->query($insertStatement) && move_uploaded_file($video['tmp_name'], "../videos/$videoCount.$vType") && move_uploaded_file($thumb['tmp_name'], "../img/thumb/$videoCount.$tType")
         ) {
@@ -189,7 +178,7 @@ if (isset($_FILES['video']) && isset($_FILES['thumb'])) {
 
 if (isset($_POST['myVideos'])) {
     $id = $_SESSION['id'];
-    $res = $connect->query("SELECT id, title, poster FROM videos WHERE owner = $id");
+    $res = $connect->query("SELECT id, title, poster FROM videos WHERE owner = '$id'");
     $data = [];
     while ($row = $res->fetch_assoc()) {
         $data[] = $row;

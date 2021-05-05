@@ -30,5 +30,4 @@ if ($found->num_rows > 0) {
 }
 
 echo json_encode($output);
-
 $connect->close();

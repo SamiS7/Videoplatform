@@ -48,7 +48,8 @@ $(() => {
             }
         };
 
-        if (data.signUpData.name.length >= 3 && data.signUpData.bDay.length >= 6 && data.signUpData.country.length > 3 && data.signUpData.email.length > 5 && data.signUpData.pass1.length >= 5 && data.signUpData.pass2 == data.signUpData.pass1) {
+        let emailPat = /^[A-zäöüßÄÖÜ\.\_\-\d]{2,40}@([A-z\-\_]+\.){1,5}[A-z]{2,10}$/gm;
+        if (data.signUpData.name.length >= 3 && data.signUpData.bDay.length >= 6 && data.signUpData.country.length > 3 && emailPat.test(data.signUpData.email) && data.signUpData.pass1.length >= 5 && data.signUpData.pass2 == data.signUpData.pass1) {
             data.signUpData = JSON.stringify(data.signUpData);
             $.post('../php/signUp.php', data, checkServer);
             data.signUpData = JSON.parse(data.signUpData);

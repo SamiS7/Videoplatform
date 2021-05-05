@@ -48,14 +48,14 @@ if (isset($_POST['changedName'])) {
     if ($id != null) {
         $chNData = $_POST['changedName'];
         $name = $connect->real_escape_string($chNData['name']);
-        $res = $connect->query("SELECT name, id FROM konto WHERE name = '$name'");
+        $res = $connect->query("SELECT name FROM konto WHERE name = '$name'");
         if ($res->num_rows > 0) {
             $alert['success'] = false;
             $alert['msg'] = "$name gibt es Schon!";
         }
 
         if (!isset($alert)) {
-            if ($connect->query("UPDATE konto SET name = '$name' WHERE id = $id")) {
+            if ($connect->query("UPDATE konto SET name = '$name' WHERE id = '$id'")) {
                 $alert['success'] = true;
                 $alert['msg'] = "Ihr neuer Name ist $name.";
             }
@@ -80,10 +80,10 @@ if (isset($_POST['following'])) {
         $x->channel = $connect->real_escape_string($x->channel);
 
         if (abocheck($id, $x->channel, $connect)->following) {
-            $connect->query("DELETE FROM channels where id = $id AND channel = '$x->channel'");
+            $connect->query("DELETE FROM channels where follower = '$id' AND channel = '(select id from konto where name = '$x->channel')'");
             $connect->query("UPDATE konto SET abos = abos - 1 WHERE name = '$x->channel'");
         } else if (exists($x->channel, $connect)) {
-            $connect->query("INSERT INTO channels VALUE ($id, '$x->channel')");
+            $connect->query("INSERT INTO channels VALUE ('$id', '(select id from konto where name = '$x->channel')')");
             $connect->query("UPDATE konto SET abos = abos + 1 WHERE name = '$x->channel'");
         }
     }
@@ -93,7 +93,7 @@ function abocheck($id, $channel, $connect)
 {
     $data = new stdClass();
     if ($id != null) {
-        $following = $connect->query("SELECT * FROM channels WHERE id = $id AND channel = '$channel'");
+        $following = $connect->query("SELECT * FROM channels WHERE follower = '$id' AND channel = '(select id from konto where name = '$channel')'");
         $data->following = $following->num_rows > 0;
         $data->logedIn = true;
     } else {

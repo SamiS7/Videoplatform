@@ -1,19 +1,47 @@
 .abos-box {
     display: grid;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .abos-box>div {
-    background-color: rgb(31, 29, 29);
+    background-color: rgb(26, 25, 25);
     margin: 5px;
-    padding: 10px;
     text-align: center;
+}
+
+.abos-box > div {
+    border-radius: 5px;
 }
 
 .abos-box a {
     color: white;
+    display: grid;
+    grid-template-rows: minmax(120px, 1fr) minmax(30px, 7vh);
+    justify-items: center;
 }
 
 .abos-box img {
     border-radius: 50%;
     width: 90%;
+    padding: 10px;
+}
+
+.abos-box h5 {
+    background-color: var(--menu-bgc);
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 8px;
+    font-size: 1em;
+    border-radius: 0 0 5px 5px;
+}
+
+@media (max-width: 600px) {
+    .abos-box {
+        grid-template-columns: 1fr 1fr;
+    }
 }

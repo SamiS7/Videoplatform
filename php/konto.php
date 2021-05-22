@@ -7,7 +7,7 @@ function output($suc, $str, $f = null)
     } else {
         echo json_encode(['success' => true, 'output' => $str, 'fileName' => $f]);
     }
-    $GLOBALS['connection']->close();
+    $GLOBALS['connect']->close();
     exit;
 }
 

@@ -19,3 +19,12 @@ form select option {
 .select-options button {
     outline: none;
 }
+
+.video-box-nScroll {
+    margin-left: 5px;
+    margin-top: 2vh;
+}
+
+#found {
+    padding: 0 1vw;
+}

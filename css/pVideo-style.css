@@ -1,8 +1,23 @@
+.pVideo-content {
+    
+}
 .pVideo-box {
-    margin-bottom: 3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin: -3vh 0px 3rem 0px;
+    padding: 0 5vw;
+    display: grid;
+    grid-template-columns: 70vw 1fr;
+    place-items: center;
+}
+
+.pVideo-box video {
+    width: 68vw;
+}
+
+.pVideo-box #vTitle {
+    background-color: black;
+    border-top: 1px double var(--body-bgc);
+    color: rgb(197, 197, 197);
+    padding: 5px;
 }
 
 .pVideo-box > div {
@@ -12,7 +27,7 @@
     text-align: center;
 }
 
-.pVideo-box > div > *{
+.pVideo-box .likeAbo-box > *{
     background-color: rgb(31, 29, 29);
     display: grid;
     align-items: center;
@@ -23,7 +38,7 @@
 }
 
 .fa-heart {
-    font-size: 5vw;
+    font-size: 6vw;
 }
 
 .like .fas {
@@ -40,4 +55,28 @@
 
 .pVideo-box a img {
     border-radius: 50%;
+    width: 80%;
+}
+
+@media(min-width:600px) and (max-width: 900px) {
+    .like, .abo-box {
+        grid-row: 2;
+        margin-bottom: 0;
+    }
+    .like {
+        margin-right: 20px;
+    }
+    .fa-heart {
+        font-size: 8vw;
+    }
+}
+
+@media (max-width:900px) {
+    .pVideo-box {
+        grid-template-columns: 1fr;
+        padding: 0 3vw;
+    }
+    .pVideo-box video {
+        width: 100%;
+    }
 }

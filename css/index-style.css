@@ -1,8 +1,19 @@
 /* CSS FOR index.html, Menu, Thumbnail und Thumbnail-Containers */
 
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+:root {
+    --body-bgc: rgb(37, 35, 35);
+    --link-c: #1098f7;
+    --headline-c: white;
+    --menu-bgc: #000000;
+    --bt-bgc: #623cea;
+    --input-c: var(--link-c);
+}
+
 * {
     outline: none;
 }
+
 *:focus {
     outline: none !important;
 }
@@ -10,9 +21,9 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: rgb(37, 35, 35);
-    color: white;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: var(--body-bgc);
+    color: var(--headline-c);
+    font-family: 'Orbitron', sans-serif;
 }
 
 .row {
@@ -21,11 +32,10 @@ body {
 }
 
 .menu {
-    background-color: black;
+    background-color: var(--menu-bgc);
 }
 
 .menu>a, .search-box {
-    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,6 +43,7 @@ body {
 
 .menu a {
     font-size: 150%;
+    position: relative;
 }
 
 .dropDown {
@@ -52,15 +63,49 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     position: absolute;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--menu-bgc);
     z-index: 5;
     text-align: center;
     width: 100%;
 }
 
+a {
+    color: var(--link-c);
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 .menu a:hover {
-    background-color: rgb(29, 23, 23);
-    color: rgb(21, 255, 0);
+    color: var(--link-c);
+}
+
+.menu a::before {
+    content: '';
+    position: absolute;
+    top: 90%;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background-color: rgb(0, 153, 255);
+    transform: scale(0, 1);
+    transition: .5s;
+    pointer-events: none;
+}
+
+.menu a:hover::before, .menu a:focus::before {
+    transform: scale(1, 1);
+}
+
+.headline {
+    color: black;
+    margin-bottom: 0;
+    text-align: center;
+    background: linear-gradient(to right, rgb(0, 0, 0), rgb(42, 93, 233), rgb(0, 0, 0));
+    padding: 1vh 0;
+    font-size: 200%;
+    margin-bottom: 2vh;
 }
 
 .jump-box-container {
@@ -119,37 +164,34 @@ body::-webkit-scrollbar-thumb {
 
 .title {
     position: absolute;
-    transform: translateY(-30px);
+    transform: translateY(-37px);
     text-align: center;
     display: none;
     margin: 0;
+    padding: 8px 0;
     color: rgb(255, 255, 255);
-    background-color: rgba(0, 0, 0, 0.479);
-    height: 30px;
+    background-color: rgba(0, 0, 0, 0.6);
+    height: 37px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 1em;
 }
 
-.video-box a:hover .title{
+.video-box a:hover .title {
     display: block;
 }
 
 .search-input {
     display: none;
-    height: 95%;
-    background-color: rgb(124, 123, 123);
-    color: white;
+    height: 40px;
 }
 
 .fa-search {
     font-size: 20px;
     color: rgb(0, 89, 255);
     transform: translate(-30px);
-}
-
-a:hover {
-    text-decoration: none;
+    padding: 10px 0;
 }
 
 .logInBox button, input, .scroll-button-to-left, .scroll-button-to-right {
@@ -171,7 +213,11 @@ a:hover {
     margin: 0 10px 10px 0;
 }
 
-@media (min-width: 992px) {
+.dropDownContent a {
+    border-bottom: 1px dotted var(--body-bgc);
+}
+
+@media (min-width: 900px) {
     .video-box-nScroll {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
@@ -183,12 +229,12 @@ a:hover {
     }
 }
 
-@media (min-width: 600px) and (max-width: 992px) {
+@media (min-width: 400px) and (max-width: 900px) {
     .video-box-nScroll {
         grid-template-columns: 1fr 1fr;
     }
     .menu>a, .menu div {
-        border-bottom: 1px solid white;
+        border-bottom: 1px solid var(--body-bgc);
     }
     .logInBox {
         height: 60vh;
@@ -198,12 +244,9 @@ a:hover {
     }
 }
 
-@media (max-width: 600px) {
-    .video-box-nScroll {
-        grid-template-columns: 1fr;
-    }
+@media (max-width:600px) {
     .menu>a, .menu div {
-        border-bottom: 1px solid white;
+        border-bottom: 1px solid var(--body-bgc);
     }
     .logInBox {
         height: auto;
@@ -217,21 +260,36 @@ a:hover {
     .scroll-button-to-left, .scroll-button-to-right {
         display: none !important;
     }
-    .jump-box a img {
-        height: auto;
-        width: 98vw;
+    .fa-heart {
+        font-size: 11vw !important;
     }
     .pVideo-box>div>* {
-        width: 90vw !important;    
+        width: 90vw !important;
     }
     .pVideo-box .abo-box {
         height: 20vh !important;
     }
     .pVideo-box a img {
-        width: 30%;
+        width: 20% !important;
+    }
+    .pVideo-box video {
+        padding: 0;
+    }
+}
+
+@media (max-width: 400px) {
+    .video-box-nScroll {
+        grid-template-columns: 1fr;
     }
     .video-box-nScroll a {
         margin-right: 0;
         padding-right: 1vw;
+    }
+    .pVideo-box a img {
+        width: 31% !important;
+    }
+    .jump-box a img {
+        height: auto;
+        width: 98vw;
     }
 }

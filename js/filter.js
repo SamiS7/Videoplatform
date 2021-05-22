@@ -37,20 +37,23 @@ $(() => {
             if (data.channels != undefined) {
                 for (c of data.channels) {
                     $('#found #channels').append(`<div>
-                    <a href="./kanal.html?c=${c}">
-                        <img src="../img/pPic1.jpg">
-                        <h5 class="abo-title">${c}</h5>
+                    <a href="./kanal.html?c=${c.name}">
+                        <img src="../img/profileimg/${c.pname}">
+                        <h5 class="abo-title">${c.name}</h5>
                     </a>
                 </div>`);
                 }
             }
             if (data.videos != undefined) {
                 for (v of data.videos) {
-                    $('#videos').append(`<a href="./pVideo.html?v=${v}">
-                <img src="../img/placeholder1.jpg">
-                <h5 class="title">${v}</h5>
+                    $('#found #videos').append(`<a href="./pVideo.html?v=${v.id}">
+                <img src="../img/thumb/${v.poster}">
+                <h5 class="title">${v.title}</h5>
             </a>`);
                 }
+                setTimeout(() => {
+                    changeTitleW();
+                }, 50);
             }
         }
     }

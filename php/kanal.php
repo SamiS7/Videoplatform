@@ -80,11 +80,11 @@ if (isset($_POST['following'])) {
         $x->channel = $connect->real_escape_string($x->channel);
 
         if (abocheck($id, $x->channel, $connect)->following) {
-            $connect->query("DELETE FROM channels where follower = '$id' AND channel = '(select id from konto where id = '$x->channel')'");
-            $connect->query("UPDATE konto SET abos = abos - 1 WHERE id = '$x->channel'");
+            $connect->query("DELETE FROM channels where follower = '$id' AND channel = (select id from konto where name = '$x->channel')");
+            $connect->query("UPDATE konto SET abos = abos - 1 WHERE name = '$x->channel'");
         } else if (exists($x->channel, $connect)) {
-            $connect->query("INSERT INTO channels VALUE ('$id', '(select id from konto where id = '$x->channel')')");
-            $connect->query("UPDATE konto SET abos = abos + 1 WHERE id = '$x->channel'");
+            $connect->query("INSERT INTO channels VALUES ('$id', (select id from konto where name = '$x->channel'))");
+            $connect->query("UPDATE konto SET abos = abos + 1 WHERE name = '$x->channel'");
         }
     }
 }
@@ -93,13 +93,13 @@ function abocheck($id, $channel, $connect)
 {
     $data = new stdClass();
     if ($id != null) {
-        $following = $connect->query("SELECT * FROM channels WHERE follower = '$id' AND channel = '(select id from konto where id = '$channel')'");
+        $following = $connect->query("SELECT * FROM channels WHERE follower = '$id' AND channel = (select id from konto where name = '$channel')");
         $data->following = $following->num_rows > 0;
         $data->logedIn = true;
     } else {
         $data->logedIn = false;
     }
-    $abosC = $connect->query("SELECT abos FROM konto WHERE id = '$channel'");
+    $abosC = $connect->query("SELECT abos FROM konto WHERE name = '$channel'");
     if ($abosC->num_rows > 0) {
         $abosC = $abosC->fetch_assoc()['abos'];
     } else {
@@ -112,7 +112,7 @@ function abocheck($id, $channel, $connect)
 
 function exists($ch, $con)
 {
-    return $con->query("SELECT * FROM konto WHERE id = '$ch'")->num_rows > 0;
+    return $con->query("SELECT * FROM konto WHERE name = '$ch'")->num_rows > 0;
 }
 
 $connect->close();

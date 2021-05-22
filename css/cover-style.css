@@ -7,6 +7,7 @@
     padding: 0;
     display: grid;
     align-items: end;
+    font-family: initial;
 }
 
 .cover-box .pPic-box {
@@ -31,6 +32,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: 1em;
 }
 
 .headline-box {
@@ -48,8 +50,21 @@
     margin-bottom: 2vh;
 }
 
-#follow, .ellipsis-box:is(i, p) {
+#follow, .ellipsis-box i, .ellipsis-box p {
     cursor: pointer;
+}
+
+@media (min-width: 900px) {
+    .pPic-box div * {
+        padding: 5px 0;
+        font-size: 1.3em;
+    }
+}
+
+@media (max-width: 900px) {
+    .cover-box {
+        height: 30vh;
+    }
 }
 
 @media (max-width: 600px) {

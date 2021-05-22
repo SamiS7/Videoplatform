@@ -5,12 +5,10 @@ window.addEventListener("resize", () => {
 });
 function changeTitleW() {
     $(() => {
-        let titles = $('.title');
+        let title = $('.title');
 
-        for (t of titles) {
-            let w = $($(t).siblings()).css('width');
-            $(t).css('width', w);
-        }
+            let w = $($(title).siblings()).css('width');
+            $(title).css('width', w);
     });
 }
 

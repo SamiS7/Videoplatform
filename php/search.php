@@ -13,19 +13,19 @@ if ($connect->connect_error) {
 $searchData = $_POST['searchData'];
 $output = [];
 $sStr = strtolower($searchData['sStr']);
-$found = $connect->query("SELECT name FROM konto WHERE LOWER(name) LIKE '%$sStr%'");
+$found = $connect->query("SELECT k.name, p.pname FROM konto k join profilandcoverpic p using(id) WHERE LOWER(k.name) LIKE '%$sStr%'");
 
 if ($found->num_rows > 0) {
     while ($row = $found->fetch_assoc()) {
-        $output['channels'][] = $row['name'];
+        $output['channels'][] = ['name' => $row['name'], 'pname' => $row['pname']];
     }
 }
 
-$found = $connect->query("SELECT name FROM videoinfos WHERE LOWER(name) LIKE '%$sStr%'");
+$found = $connect->query("SELECT id, title, poster FROM videos WHERE LOWER(title) LIKE '%$sStr%'");
 
 if ($found->num_rows > 0) {
     while ($row = $found->fetch_assoc()) {
-        $output['videos'][] = $row['name'];
+        $output['videos'][] = ['id' => $row['id'], 'title' => $row['title'], 'poster' => $row['poster']];
     }
 }
 

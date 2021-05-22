@@ -6,7 +6,7 @@
 
 .nav-box {
     margin-top: -1rem;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--menu-bgc);
 }
 
 .nav {
@@ -21,7 +21,7 @@
     color: rgb(206, 198, 198);
     height: 10vh;
     width: 100%;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--menu-bgc);
     border-bottom: 1px solid rgb(24, 24, 24);
 }
 
@@ -37,7 +37,7 @@
     z-index: 2;
     width: 30px;
     text-align: center;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--menu-bgc);
     border-radius: 50%;
     align-items: center;
 }
@@ -56,12 +56,13 @@
 .ellipsis-box .fa-ellipsis-v {
     background-color: rgba(0, 0, 0, 0.363);
     padding: 5px;
+    border-radius: 20px;
 }
 
 #edit-options {
     position: absolute;
     right: 30px;
-    background-color: rgb(0, 0, 0);
+    background-color: var(--menu-bgc);
     height: 120px;
     width: 150px;
 }
@@ -101,25 +102,26 @@
 .uploadV-box form>*, .uploadV-box button {
     height: 7vh;
     margin-bottom: 20px;
+    border-radius: 30px;
+}
+
+.uploadV-box form input[type=text], .uploadV-box button {
+    text-align: center;
 }
 
 .uploadV-box form input[type=text] {
-    border: 1px solid rgb(0, 140, 255);
+    border: 1px solid var(--input-c);
     background-color: rgb(37, 35, 35);
-    color: white;
+    color: var(--headline-c);
 }
 
 .uploadV-box button {
-    background-color: rgb(122, 122, 122);
+    background-color: var(--bt-bgc);
     border: none;
 }
 
 .uploadV-box button:hover {
-    background-color: rgb(0, 140, 255);
-}
-
-.uploadV-box button:active {
-    background-color: rgb(0, 255, 55);
+    background-color: var(--input-c);
 }
 
 .uploadV-box #meldung2 {
@@ -139,8 +141,5 @@
     }
     .content {
         grid-template-columns: 0% 1fr;
-    }
-    .abos-box {
-        grid-template-columns: 1fr 1fr;
     }
 }

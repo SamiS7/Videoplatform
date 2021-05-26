@@ -3,12 +3,18 @@ changeTitleW();
 window.addEventListener("resize", () => {
     changeTitleW()
 });
+let s;
 function changeTitleW() {
     $(() => {
         let title = $('.title');
-
-            let w = $($(title).siblings()).css('width');
-            $(title).css('width', w);
+        let w;
+        for (s of $(title).siblings()) {
+            w = s.clientWidth;
+            if (w > 0) {
+                break;
+            }
+        }
+        $(title).css('width', w);
     });
 }
 

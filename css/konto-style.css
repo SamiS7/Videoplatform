@@ -81,12 +81,38 @@
     background-color: rgb(54, 54, 54);
 }
 
-#uploadMsg {
+#cover-box-msg {
+    display: none;
     position: absolute;
+    top: 20vh;
+    left: 20vw;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#uploadMsgBox {
+    position: relative;
+    width: 40vw;
+    display: grid;
+    gap: 8px;
+    min-height: 10vh;
+    place-items: center;
+}
+
+.uploadMsg {
     background-color: aliceblue;
     color: black;
-    width: 200px;
+    width: 95%;
     padding: 5px;
+    margin: 0;
+}
+
+#removeMsg {
+    cursor: pointer;
+    position: absolute;
+    right: -10px;
+    top: -14px;
+    padding: 0 5px;
 }
 
 .videosInAcc-box {
@@ -141,5 +167,11 @@
     }
     .content {
         grid-template-columns: 0% 1fr;
+    }
+    #uploadMsgBox {
+        width: 60vw;
+    }
+    #cover-box-msg {
+        top: 3vh;
     }
 }

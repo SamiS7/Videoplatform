@@ -9,8 +9,11 @@ function getConnect()
     return new mysqli($db_host, $db_username, $db_password, $db_datenbank);
 }
 
-function exitFile() {
-    $GLOBALS['connect']->close();
+function exitFile()
+{
+    if (isset($GLOBALS['connect'])) {
+        $GLOBALS['connect']->close();
+    }
     exit;
 }
 
@@ -34,7 +37,7 @@ if (isset($_POST['checkProfileImg'])) {
                 $id = $res->fetch_assoc()['id'];
             } else {
                 echo 'standart.jpg';
-                exitFile();  
+                exitFile();
             }
         } else {
             echo 'standart.jpg';
@@ -70,7 +73,7 @@ if (isset($_POST['checkCoverImg'])) {
                 $id = $res->fetch_assoc()['id'];
             } else {
                 echo 'standart.jpg';
-                exitFile();   
+                exitFile();
             }
         } else {
             echo 'standart.jpg';

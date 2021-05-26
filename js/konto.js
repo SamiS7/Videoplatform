@@ -75,10 +75,8 @@ $(() => {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
                         let response = JSON.parse(xhttp.responseText);
                         if (response.success) {
-                            $('.cover-box').append(`<p id="uploadMsg>${response.output}</p>`);
-                            setTimeout(() => {
-                                $('#uploadMsg').remove();
-                            }, 3000);
+                            alertImgUpload(response.msg);
+
                             let reader = new FileReader();
                             reader.readAsDataURL(e.target.files[0]);
 
@@ -118,10 +116,8 @@ $(() => {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
                         let response = JSON.parse(xhttp.responseText);
                         if (response.success) {
-                            $('.cover-box').append(`<p id="uploadMsg>${response.output}</p>`);
-                            setTimeout(() => {
-                                $('#uploadMsg').remove();
-                            }, 3000);
+                            alertImgUpload(response.msg);
+
                             let reader = new FileReader();
                             reader.readAsDataURL(e.target.files[0]);
 
@@ -141,6 +137,31 @@ $(() => {
             }
         });
     });
+
+    function alertImgUpload(msg) {
+        let html = '<div id ="uploadMsgBox">';
+        msg.forEach(m => {
+            html += `<p class="uploadMsg">${m}</p>`;
+        });
+        html += '<p id="removeMsg">x</p>';
+        $('#cover-box-msg').append(html);
+        $('#cover-box-msg').show();
+
+        $('#uploadMsgBox').click(event => {
+            removeMsgBox();
+        });
+        setTimeout(() => {
+            removeMsgBox();
+        }, 5000);
+
+        function removeMsgBox() {
+            $('#cover-box-msg').toggle();
+            $('#uploadMsgBox').remove();
+        }
+
+    }
+
+
 
 
     let buttons = [];
@@ -176,14 +197,28 @@ $(() => {
 
         $.post('../php/konto.php', { 'myVideos': '' }, data => {
             data = JSON.parse(data);
-            $('.videosInAcc-box .video-box').html('');
-            for (element of data.output) {
-                $('.videosInAcc-box .video-box').append(`<a href="./pVideo.html?v=${element.id}">
+            if (data.success) {
+                $('.videosInAcc-box .video-box').html('');
+                for (element of data.output) {
+                    $('.videosInAcc-box .video-box').append(`<a href="./pVideo.html?v=${element.id}">
                 <img src="../img/thumb/${element.poster}">
                 <h5 class="title">${element.title}</h5>
             </a>`);
-            };
-            changeTitleW();
+                };
+                changeTitleW();
+            } else {
+                $('#cover-box-msg').append(`<div id ="uploadMsgBox"><p class="uploadMsg">${data.output}</p><p id="removeMsg">x</p></div>`);
+                $('#cover-box-msg').show();
+                $('#uploadMsgBox').click(event => {
+                    removeMsgBox();
+                });
+
+                function removeMsgBox() {
+                    $('#cover-box-msg').toggle();
+                    $('#uploadMsgBox').remove();
+                }
+
+            }
         });
     }
 
@@ -238,9 +273,9 @@ $(() => {
                             $('#tags').val('');
                         });
                     } else {
-                        $('#meldung').html(`<p id="meldung1">${response.output}</p>`);
+                        $('#meldung').html(`<p id="meldung2">${response.output}</p>`);
                         setTimeout(() => {
-                            $('#meldung1').remove();
+                            $('#meldung2').remove();
                         }, 5000);
                     }
                 }
@@ -248,9 +283,9 @@ $(() => {
             xhttp.send(data);
             document.getElementsByClassName('hochladenB')[0].disabled = false;
         } else {
-            $('#meldung').html('<p id="meldung1">Bitte kontrollieren Sie Ihre Eingaben!</P>');
+            $('#meldung').html('<p id="meldung2">Bitte kontrollieren Sie Ihre Eingaben!</P>');
             setTimeout(() => {
-                $('#meldung1').remove();
+                $('#meldung2').remove();
             }, 3000);
         }
     });

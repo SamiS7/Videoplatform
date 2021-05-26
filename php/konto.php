@@ -1,13 +1,10 @@
 <?php
-function output($suc, $str, $f = null)
+function output($suc, $msgs)
 {
-
-    if (!$suc) {
-        echo json_encode(['success' => false, 'output' => $str]);
-    } else {
-        echo json_encode(['success' => true, 'output' => $str, 'fileName' => $f]);
+    echo json_encode(['success' => $suc, 'msg' => $msgs]);
+    if (isset($GLOBALS['connect'])) {
+        $GLOBALS['connect']->close();
     }
-    $GLOBALS['connect']->close();
     exit;
 }
 
@@ -34,22 +31,27 @@ if (isset($_FILES[$profArrName])) {
     $imgType = pathinfo($_FILES[$profArrName]['name'], PATHINFO_EXTENSION);
     $imgType = strtolower($imgType);
     $supportedTypes = ['jpg', 'jpeg', 'png'];
+    $output = [];
 
     if (!getimagesize($sentImg)) {
-        output(false, 'Die geschickte Datei ist kein Bild!');
+        $output[] = 'Die geschickte Datei ist kein Bild!';
     }
     if (!in_array($imgType, $supportedTypes)) {
-        output(false, 'Profilbild muss JPG, JPEG oder PNG sein!');
+        $output[] = 'Profilbild muss JPG, JPEG oder PNG sein!';
     }
 
     $tSize = getimagesize($sentImg);
     $result = $tSize[0] / $tSize[1];
     if ($result < 0.9 || $result > 1.1) {
-        output(false, 'Das Profilbild muss im 1:1 Format sein!');
+        $output[] = 'Das Profilbild muss im 1:1 Format sein!';
     }
 
     if ($_FILES[$profArrName]['size'] > 400000) {
-        output(false, 'Profilbild darf nicht größer sein als 400 KB!');
+        $Output[] = 'Profilbild darf nicht größer sein als 400 KB!';
+    }
+
+    if (count($output) > 0) {
+        output(false, $output);
     }
 
     $usrName;
@@ -66,13 +68,14 @@ if (isset($_FILES[$profArrName])) {
             $changeStatement = "INSERT INTO profilandcoverpic VALUE('$id', '$fileName', '')";
         }
 
-        if (move_uploaded_file($sentImg, $dir . $fileName) && $connect->query($changeStatement)) {
-            output(true, 'Ihr Profilbild wurde geändert!', $fileName);
+        if ($connect->query($changeStatement) && move_uploaded_file($sentImg, $dir . $fileName)) {
+            output(true, ['Ihr Profilbild wurde geändert!'], $fileName);
         } else {
-            output(false, 'Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.');
+            $connect->rollback();
+            output(false, ['Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.']);
         }
     } else {
-        output(false, 'Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.');
+        output(false, ['Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.']);
     }
 }
 
@@ -84,20 +87,25 @@ if (isset($_FILES[$coverArrName])) {
     $imgType = pathinfo($_FILES[$coverArrName]['name'], PATHINFO_EXTENSION);
     $imgType = strtolower($imgType);
     $supportedTypes = ['jpg', 'jpeg', 'png'];
+    $output = [];
 
     if (!getimagesize($sentImg)) {
-        output(false, 'Die geschickte Datei ist kein Bild!');
+        $output[] = 'Die geschickte Datei ist kein Bild!';
     }
     if (!in_array($imgType, $supportedTypes)) {
-        output(false, 'Coverbild muss JPG, JPEG oder PNG sein!');
+        $output[] = 'Coverbild muss JPG, JPEG oder PNG sein!';
     }
     $tSize = getimagesize($sentImg);
     $result = $tSize[0] / $tSize[1];
     if ($result < 3 || $result > 4) {
-        output(false, 'Das Thumbnail muss im 15:4 Format sein!');
+        $output[] = 'Das Thumbnail muss im 15:4 Format sein!';
     }
     if ($_FILES[$coverArrName]['size'] > 700000) {
-        output(false, 'Coverbild darf nicht größer sein als 700 KB!');
+        $output[] = 'Coverbild darf nicht größer sein als 700 KB!';
+    }
+
+    if (count($output) > 0) {
+        output(false, $output);
     }
 
     $usrName;
@@ -114,13 +122,14 @@ if (isset($_FILES[$coverArrName])) {
             $changeStatement = "INSERT INTO profilandcoverpic VALUE('$id', '', '$fileName')";
         }
 
-        if (move_uploaded_file($sentImg, $dir . $fileName) && $connect->query($changeStatement)) {
-            output(true, 'Ihr Coverbild wurde geändert!', $fileName);
+        if ($connect->query($changeStatement) && move_uploaded_file($sentImg, $dir . $fileName)) {
+            output(true, ['Ihr Coverbild wurde geändert!'], $fileName);
         } else {
-            output(false, 'Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.');
+            $connect->rollback();
+            output(false, ['Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.']);
         }
     } else {
-        output(false, 'Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.');
+        output(false, ['Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.']);
     }
 }
 
@@ -132,26 +141,31 @@ if (isset($_FILES['video']) && isset($_FILES['thumb'])) {
     $tags = $connect->real_escape_string($_POST['tags']);
     $vType = pathinfo($video['name'], PATHINFO_EXTENSION);
     $tType = pathinfo($thumb['name'], PATHINFO_EXTENSION);
+    $output = [];
 
     if (!in_array($vType, ['mp4', 'mov', 'avi', 'webm'])) {
-        output(false, 'Thumbnail muss mp4, mov, avi oder webm sein!');
+        $output[] = 'Thumbnail muss mp4, mov, avi oder webm sein!';
     }
     if (!getimagesize($thumb['tmp_name'])) {
-        output(false, 'Die geschickte Datei ist kein Bild!');
+        $output[] = 'Die geschickte Datei ist kein Bild!';
     }
     if (!in_array($tType, ['jpg', 'jpeg', 'png'])) {
-        output(false, 'Thumbnail muss JPG, JPEG oder PNG sein!');
+        $output[] = 'Thumbnail muss JPG, JPEG oder PNG sein!';
     }
     $tSize = getimagesize($thumb['tmp_name']);
     $result = $tSize[0] / $tSize[1];
     if ($result < 1.77 || $result > 1.78) {
-        output(false, 'Das Thumbnail muss im 16:9 Format sein!');
+        $output[] = 'Das Thumbnail muss im 16:9 Format sein!';
     }
     if ($video['size'] > 240000000) {
-        output(false, 'Das Video darf nicht größer sein als 30 MB!');
+        $output[] = 'Das Video darf nicht größer sein als 30 MB!';
     }
     if ($thumb['size'] > 400000) {
-        output(false, 'Thumbnail darf nicht größer sein als 400 KB!');
+        $output[] = 'Thumbnail darf nicht größer sein als 400 KB!';
+    }
+
+    if (count($output) > 0) {
+        output(false, $output);
     }
 
     $id = $_SESSION['id'];
@@ -167,12 +181,13 @@ if (isset($_FILES['video']) && isset($_FILES['thumb'])) {
         if (
             $connect->query($insertStatement) && move_uploaded_file($video['tmp_name'], "../videos/$videoCount.$vType") && move_uploaded_file($thumb['tmp_name'], "../img/thumb/$videoCount.$tType")
         ) {
-            output(true, '');
+            output(true, ['Ihr Video wurde erfolgreich hochgeladen!']);
         } else {
-            output(false, 'Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.');
+            $connect->rollback();
+            output(false, ['Irgendwas ist schiefgelaufen, versuchen Sie später nochmal.']);
         }
     } else {
-        output(false, 'Sie sind nicht angemeldet!');
+        output(false, ['Sie sind nicht angemeldet!']);
     }
 }
 

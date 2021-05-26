@@ -31,3 +31,24 @@
 :is(.logInBox input, .logInBox button, .signUpBox input, .signUpBox button):hover {
     box-shadow: -3px -6px 20px 4px black;
 }
+
+:root {
+    --msgBC: rgb(255, 157, 44);
+}
+
+#logInMessage, #message {
+    border: 2px dashed var(--msgBC);
+    margin: 5vh 0 3vh 0;
+    padding: 0;
+    display: none;
+    border-radius: 1em;
+}
+
+:is(#logInMessage, #message) p {
+    padding: .5em 1em;
+    margin: 0;
+}
+
+:is(#logInMessage, #message) p:not(:is(#logInMessage, #message) p:last-child) {
+    border-bottom: 1px solid var(--msgBC);
+}

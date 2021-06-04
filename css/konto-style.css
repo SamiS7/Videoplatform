@@ -81,40 +81,6 @@
     background-color: rgb(54, 54, 54);
 }
 
-#cover-box-msg {
-    display: none;
-    position: absolute;
-    top: 20vh;
-    left: 20vw;
-    padding: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-#uploadMsgBox {
-    position: relative;
-    width: 40vw;
-    display: grid;
-    gap: 8px;
-    min-height: 10vh;
-    place-items: center;
-}
-
-.uploadMsg {
-    background-color: aliceblue;
-    color: black;
-    width: 95%;
-    padding: 5px;
-    margin: 0;
-}
-
-#removeMsg {
-    cursor: pointer;
-    position: absolute;
-    right: -10px;
-    top: -14px;
-    padding: 0 5px;
-}
-
 .videosInAcc-box {
     margin-top: -1rem;
 }
@@ -144,6 +110,7 @@
 .uploadV-box button {
     background-color: var(--bt-bgc);
     border: none;
+    color: black;
 }
 
 .uploadV-box button:hover {
@@ -152,6 +119,8 @@
 
 .uploadV-box #meldung2 {
     margin: 20px;
+    display: grid;
+    place-items: center;
 }
 
 .likedVideos-box, .history-box, .abos-box, .uploadV-box, .videosInAcc-box {

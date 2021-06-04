@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/2a541da855.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../css/index-style.css">
+    <link rel="stylesheet" href="../css/alert.css">
     <link rel="stylesheet" href="../css/pVideo-style.css">
     <script src="../js/menu.js"></script>
     <script src="../js/title.js"></script>
@@ -23,64 +24,12 @@
     <div class="row menu mb-5"></div>
 
     <div class="pVideo-content">
-        <div class="pVideo-box">
-            <div>
-                <video controls>
-                    <source src="../videos/video1.mp4" type="video/mp4">
-                </video>
-                <p id="vTitle">Video Titel</p>
-            </div>
-            <div class="likeAbo-box">
-                <div class="like">
-                    <i class="far fa-heart"></i>
-                    <i class="fas fa-heart" style="display: none;"></i>
-                </div>
-                <div class="abo-box">
-                    <a href="./kanal.html?c=Aurora">
-                        <img src="../img/pPic1.jpg">
-                        <h5 class="abo-title">Aurora</h5>
-                    </a>
-                </div>
-            </div>
-        </div>
+        <div class="pVideo-box"></div>
 
-        <div class="row pl-3 pr-3">
-            <h4>Ähnliche Videos</h4>
-        </div>
+        <div id="moreFromHL" class="row pl-3 pr-3"></div>
 
         <div class="jump-box-container video-box row mb-5">
-            <div class="row jump-box video-box">
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a><a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a><a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-            </div>
+            <div id="moreFrom" class="row jump-box video-box"></div>
             <button class="scroll-button-to-left">
                 <i class="fas fa-chevron-left"></i>
             </button>
@@ -89,6 +38,9 @@
             </button>
         </div>
     </div>
+
+    <div id="cover-box-msg"></div>
+
 </body>
 
 </html>

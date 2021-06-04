@@ -84,7 +84,7 @@ $(() => {
             }
             $(box).css('transform', 'translate(' + xBefore + 'px)');
             xBefore += dir * 50;
-        }, 1);
+        }, 20);
     }
 
     function translateX(box) {

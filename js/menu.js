@@ -1,10 +1,10 @@
 $(() => {
-    $('.menu').html(`<a href="./index.html" class="col-lg-2 col-md-6 col-sm-12">
+    $('.menu').html(`<a href="./index.html" class="col-lg-2 col-md-2 col-sm-6">
     <i class="fas fa-home" style="font-size: 150%;"></i>
 </a>
-<a href="./videos.html" class="col-lg-2 col-md-6 col-sm-12">Videos</a>
+<a href="./videos.html" class="col-lg-2 col-md-2 col-sm-6">Videos</a>
 
-<div class="dropDown col-lg-2 col-md-6 col-sm-12 p-0">
+<div class="dropDown col-lg-2 col-md-4 col-sm-6 p-0">
     <h4 class="col-12">Mein Konto</h4>
     <div class="dropDownContent" style="display: none;">
         <a href="./konto.html?box=videosInAcc">Konto</a>
@@ -16,7 +16,7 @@ $(() => {
     </div>
 </div>
 
-<div class="search-box col-lg-6 col-md-6 col-sm-12">
+<div class="search-box col-lg-6 col-md-4 col-sm-6">
     <input type="text" class="search-input col-10">
     <i class="fas fa-search"></i>
 </div>`);

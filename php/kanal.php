@@ -1,8 +1,4 @@
 <?php
-$db_host = 'localhost';
-$db_datenbank = 'video-projekt';
-$db_username = 'video-projekt';
-$db_password = 'passw';
 session_start();
 $id = null;
 
@@ -10,10 +6,25 @@ if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
 }
 
-$connect = new mysqli($db_host, $db_username, $db_password, $db_datenbank);
+include 'connection.php';
 
 if ($connect->connect_error) {
     die("Datenbank connection failed" . $connect->connect_error);
+}
+
+if (isset($_POST['videos'])) {
+    $name = $_POST['videos'];
+    $res = $connect->query("select title, id, poster from videos v where owner = (select id from konto where name = '$name')");
+
+    if ($res->num_rows > 0) {
+        $data = [];
+        while ($r = $res->fetch_assoc()) {
+            $data[] = $r;
+        }
+        echo json_encode(['success' => true, 'data' => $data]);
+    } else {
+        echo json_encode(['success' => false]);
+    }
 }
 
 if (isset($_POST['aboCounter'])) {

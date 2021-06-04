@@ -1,14 +1,5 @@
 <?php
-$db_host = 'localhost';
-$db_datenbank = 'video-projekt';
-$db_username = 'video-projekt';
-$db_password = 'passw';
-
-$connect = new mysqli($db_host, $db_username, $db_password, $db_datenbank);
-
-if ($connect->connect_error) {
-    die("Datenbank connection failed" . $connect->connect_error);
-}
+include 'connection.php';
 
 function output($suc, $msgs)
 {
@@ -33,7 +24,7 @@ if (isset($_POST['logInData'])) {
         $output[] = 'Der Passwort muss mindestens 5 Zeichen haben!';
     }
 
-    if (count($output) == 0) {
+    if (count($output) > 0) {
         output(false, $output);
     }
 
@@ -44,9 +35,9 @@ if (isset($_POST['logInData'])) {
 
         $res = $res->fetch_assoc();
         if ($res['password'] == md5('Videos' .  $logInData->pass)) {
-            output(true, ['']);
             session_start();
             $_SESSION['id'] = $res['id'];
+            output(true, ['']);
         } else {
             output(false, 'Passwort ist falsch!');
         }
@@ -54,23 +45,23 @@ if (isset($_POST['logInData'])) {
         $output = json_encode($output);
         echo $output;
     } else {
-        output(false, $logInData->name . ' gibt es nicht!');
+        output(false, [$logInData->name . ' gibt es nicht!']);
     }
 }
 
-if (isset($_POST['checkId'])) {
-    $id = $_POST['checkId'];
-    $output;
+// if (isset($_POST['checkId'])) {
+//     $id = $_POST['checkId'];
+//     $output;
 
-    $res = $connect->query("SELECT name FROM konto where id = '$id'");
-    if ($res->num_rows > 0) {
-        $res = $res->fetch_assoc();
-        $output = ['message' => true, 'name' => $res['name']];
-    }
-    if (!isset($output)) {
-        $output = ['message' => false];
-    }
-    echo json_encode($output);
-}
+//     $res = $connect->query("SELECT name FROM konto where id = '$id'");
+//     if ($res->num_rows > 0) {
+//         $res = $res->fetch_assoc();
+//         $output = ['message' => true, 'name' => $res['name']];
+//     }
+//     if (!isset($output)) {
+//         $output = ['message' => false];
+//     }
+//     echo json_encode($output);
+// }
 
 $connect->close();

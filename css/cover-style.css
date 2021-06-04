@@ -1,7 +1,7 @@
 .cover-box {
     position: relative;
     height: 50vh;
-    background-image: url('../img/cover2.jpg');
+    /* background-image: url('../img/cover2.jpg'); */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

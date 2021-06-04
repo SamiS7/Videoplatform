@@ -25,6 +25,7 @@ $(() => {
                 if (receivedData.success == true) {
                     $('.logInBox input').hide();
                     $('.logInBox button').hide();
+                    $('#logInMessage').show();
                     $('#logInMessage').html(`<p>Willkommen ${name} zurück!</p>`);
                     setTimeout(() => {
                         window.location.replace('./index.html');
@@ -34,7 +35,7 @@ $(() => {
                     $('#logInMessage').html(``);
                     $('#logInMessage').show();
                     receivedData.msg.forEach(m => {
-                        $('#logInMessage').append(`<>${m}</>`);
+                        $('#logInMessage').append(`<p>${m}</p>`);
                     });
                 }
             }
@@ -71,11 +72,11 @@ $(() => {
             output.push('Die Länge des Namens muss zw. 3 - 25 sein!');
         }
 
-        if (data.signUpData.bDay.length >= 6) {
+        if (data.signUpData.bDay.length < 6) {
             output.push('Ihr Geburtsdatum stimmt nicht!');
         }
 
-        if (!(data.signUpData.country.length > 3 && data.signUpData.country.length > 30)) {
+        if ((data.signUpData.country.length < 3 || data.signUpData.country.length > 30)) {
             output.push('Das Land muss eine Länge zw. 3 - 30 haben!');
         }
 

@@ -75,7 +75,6 @@ $(() => {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
                         let response = JSON.parse(xhttp.responseText);
                         if (response.success) {
-                            alertImgUpload(response.msg);
 
                             let reader = new FileReader();
                             reader.readAsDataURL(e.target.files[0]);
@@ -86,9 +85,8 @@ $(() => {
                                 $('#coverPic-inp').remove();
                                 $('#edit-options').hide();
                             }
-                        } else {
-
                         }
+                        uploadAlert(response.msg, response.success);
                     }
                 };
 
@@ -116,8 +114,6 @@ $(() => {
                     if (xhttp.readyState == 4 && xhttp.status == 200) {
                         let response = JSON.parse(xhttp.responseText);
                         if (response.success) {
-                            alertImgUpload(response.msg);
-
                             let reader = new FileReader();
                             reader.readAsDataURL(e.target.files[0]);
 
@@ -127,9 +123,8 @@ $(() => {
                                 $('#profilPic-inp').remove();
                                 $('#edit-options').hide();
                             }
-                        } else {
-
                         }
+                        uploadAlert(response.msg, response.success);
                     }
                 };
 
@@ -138,31 +133,31 @@ $(() => {
         });
     });
 
-    function alertImgUpload(msg) {
+    function uploadAlert(msg, success = false, container = '#cover-box-msg') {
         let html = '<div id ="uploadMsgBox">';
         msg.forEach(m => {
             html += `<p class="uploadMsg">${m}</p>`;
         });
         html += '<p id="removeMsg">x</p>';
-        $('#cover-box-msg').append(html);
-        $('#cover-box-msg').show();
+        $(`${container}`).html(html);
+        $(`${container}`).show();
 
-        $('#uploadMsgBox').click(event => {
+        $('#removeMsg').click(event => {
             removeMsgBox();
         });
-        setTimeout(() => {
-            removeMsgBox();
-        }, 5000);
+
+        if (success) {
+            setTimeout(() => {
+                removeMsgBox();
+            }, 5000);
+        }
 
         function removeMsgBox() {
-            $('#cover-box-msg').toggle();
+            $(`${container}`).toggle();
             $('#uploadMsgBox').remove();
         }
 
     }
-
-
-
 
     let buttons = [];
     buttons.push($('#videosInAcc'), $('#likedVideos'), $('#history'), $('#abos'), $('#uploadV'));
@@ -199,15 +194,14 @@ $(() => {
             data = JSON.parse(data);
             if (data.success) {
                 $('.videosInAcc-box .video-box').html('');
-                for (element of data.output) {
+                for (element of data.msg) {
                     $('.videosInAcc-box .video-box').append(`<a href="./pVideo.html?v=${element.id}">
                 <img src="../img/thumb/${element.poster}">
-                <h5 class="title">${element.title}</h5>
+                <h5 class="title" title="${element.title}">${element.title}</h5>
             </a>`);
                 };
-                changeTitleW();
             } else {
-                $('#cover-box-msg').append(`<div id ="uploadMsgBox"><p class="uploadMsg">${data.output}</p><p id="removeMsg">x</p></div>`);
+                $('#cover-box-msg').append(`<div id ="uploadMsgBox"><p class="uploadMsg">${data.msg}</p><p id="removeMsg">x</p></div>`);
                 $('#cover-box-msg').show();
                 $('#uploadMsgBox').click(event => {
                     removeMsgBox();
@@ -220,6 +214,60 @@ $(() => {
 
             }
         });
+    }
+
+    if (chosenId == 'likedVideos') {
+        postForVideos('likedVideos');
+    }
+
+    if (chosenId == 'history') {
+        postForVideos('history');
+    }
+
+    if (chosenId == 'abos') {
+        $.post('../php/konto.php', { 'abos': null }, data => {
+            data = JSON.parse(data);
+            if (data.success) {
+                let html = '';
+                data.msg.forEach(k => {
+                    html += `
+                    <div>
+                        <a href="./kanal.html?c=${k.name}">
+                            <img src="../img/profileImg/${k.pname}">
+                            <h5 class="abo-title" title="${k.name}">${k.name}</h5>
+                        </a>
+                    </div>`;
+                });
+
+                $('#abos-boxID').html(html);
+            } else {
+                uploadAlert(data.msg, false, '#notLogedIn');
+            }
+        });
+    }
+
+    function postForVideos(name) {
+        let json = {};
+        json[name] = null;
+        $.post('../php/konto.php', json, data => {
+            data = JSON.parse(data);
+            if (data.success) {
+                addVideos(name + '-boxID', data.msg)
+            } else {
+                uploadAlert(data.msg, false, '#notLogedIn')
+            }
+        });
+    }
+
+    function addVideos(htmlID, data) {
+        let html = '';
+        data.forEach(v => {
+            html += `<a href="./pVideo.html?v=${v.id}">
+                    <img loading="lazy" src="../img/thumb/${v.poster}">
+                    <h5 class="title" title="${v.title}">${v.title}</h5>
+                    </a>`;
+        });
+        $(`#${htmlID}`).html(html);
     }
 
     chosenButton = $('#' + chosenId);
@@ -246,7 +294,25 @@ $(() => {
         document.getElementsByClassName('hochladenB')[0].disabled = true;
         let v = $('#videoForUpl');
         let t = $('#thumbnail');
-        if (v[0].files.length != 0 && t[0].files.length != 0 && $('#titleOfV').val().length >= 5 && $('#catagories').val().length >= 2 && $('#tags').val().length >= 2) {
+        let output = [];
+
+        if (v[0].files.length == 0) {
+            output.push('Sie haben kein Video ausgewählt!');
+        }
+        if (t[0].files.length == 0) {
+            output.push('Sie haben kein Thumbnail ausgewählt!');
+        }
+        if ($('#titleOfV').val().length < 1) {
+            output.push('Titel muss mindestens 1 Zeichen haben');
+        }
+        if ($('#catagories').val().length < 3) {
+            output.push('Kategorie muss mindestens 3 Zeichen haben');
+        }
+        if ($('#tags').val().length < 3) {
+            output.push('Tags muss mindestens 3 Zeichen haben');
+        }
+
+        if (output.length == 0) {
 
             let data = new FormData();
             data.append('video', v[0].files[0]);
@@ -262,6 +328,7 @@ $(() => {
                     let response = JSON.parse(xhttp.responseText);
                     if (response.success) {
                         $('.hochladenBox').hide();
+                        $('#uploadMsgBox').remove();
                         $('#meldung').append('<div id="meldung2"><p>Ihr Video wurde hochgeladen!</P><button id="uploadAg">Nochmal hochladen</button></div>');
                         $('#uploadAg').click(() => {
                             $('.hochladenBox').show();
@@ -273,20 +340,14 @@ $(() => {
                             $('#tags').val('');
                         });
                     } else {
-                        $('#meldung').html(`<p id="meldung2">${response.output}</p>`);
-                        setTimeout(() => {
-                            $('#meldung2').remove();
-                        }, 5000);
+                        uploadAlert(response.msg, response.success, '.uploadV-box #meldung');
                     }
                 }
             };
             xhttp.send(data);
-            document.getElementsByClassName('hochladenB')[0].disabled = false;
         } else {
-            $('#meldung').html('<p id="meldung2">Bitte kontrollieren Sie Ihre Eingaben!</P>');
-            setTimeout(() => {
-                $('#meldung2').remove();
-            }, 3000);
+            uploadAlert(output, false, '.uploadV-box #meldung');
         }
+        document.getElementsByClassName('hochladenB')[0].disabled = false;
     });
 });

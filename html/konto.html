@@ -13,10 +13,12 @@
     <link rel="stylesheet" href="../css/index-style.css">
     <link rel="stylesheet" href="../css/konto-style.css">
     <link rel="stylesheet" href="../css/cover-style.css">
+    <link rel="stylesheet" href="../css/alert.css">
     <script src="../js/menu.js"></script>
     <script src="../js/search.js"></script>
     <script src="../js/konto.js" defer></script>
     <script src="../js/title.js" defer></script>
+    <script src="../js/filterVideos.js"></script>
     <title>Konto</title>
 </head>
 
@@ -42,10 +44,10 @@
                 <div class="cover-box col-12 mb-2">
                     <div class="editablePPic-box">
                         <div class="pPic-box">
-                            <img src="../img/pPic1.jpg" id="profilPic">
+                            <img id="profilPic">
                             <div>
-                                <h5 class="kontoName">Aurora |</h5>
-                                <p id="aboCount">&nbsp;2 Mio Abos</p>
+                                <h5 class="kontoName"></h5>
+                                <p id="aboCount"></p>
                             </div>
                         </div>
                         <div class="ellipsis-box">
@@ -63,183 +65,14 @@
                     <div id="cover-box-msg"></div>
                 </div>
 
-                <div class=" video-box video-box-nScroll">
-                    <a href="./pVideo.html?v=videoName">
-                        <img src="../img/placeholder1.jpg">
-                        <h5 class="title">Titel</h5>
-                    </a>
-                    <a href="./pVideo.html?v=videoName">
-                        <img src="../img/placeholder2.jpg">
-                        <h5 class="title">Titel</h5>
-                    </a>
-                    <a href="./pVideo.html?v=videoName">
-                        <img src="../img/placeholder1.jpg">
-                        <h5 class="title">Titel</h5>
-                    </a>
-                    <a href="./pVideo.html?v=videoName">
-                        <img src="../img/placeholder2.jpg">
-                        <h5 class="title">Titel</h5>
-                    </a><a href="./pVideo.html?v=videoName">
-                        <img src="../img/placeholder1.jpg">
-                        <h5 class="title">Titel</h5>
-                    </a>
-                    <a href="./pVideo.html?v=videoName">
-                        <img src="../img/placeholder2.jpg">
-                        <h5 class="title">Titel</h5>
-                    </a><a href="./pVideo.html?v=videoName">
-                        <img src="../img/placeholder1.jpg">
-                        <h5 class="title">Titel</h5>
-                    </a>
-                    <a href="./pVideo.html?v=videoName">
-                        <img src="../img/placeholder2.jpg">
-                        <h5 class="title">Titel</h5>
-                    </a>
-                </div>
+                <div class=" video-box video-box-nScroll"></div>
             </div>
 
-            <div class="likedVideos-box video-box video-box-nScroll">
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a><a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a><a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-            </div>
+            <div id="likedVideos-boxID" class="likedVideos-box video-box video-box-nScroll"></div>
 
-            <div class="history-box video-box video-box-nScroll">
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a><a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a><a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder1.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-                <a href="./pVideo.html?v=videoName">
-                    <img src="../img/placeholder2.jpg">
-                    <h5 class="title">Titel</h5>
-                </a>
-            </div>
+            <div id="history-boxID" class="history-box video-box video-box-nScroll"></div>
 
-            <div class="abos-box">
-                <div>
-                    <a href="./kanal.html?c=Aurora">
-                        <img src="../img/pPic1.jpg">
-                        <h5 class="abo-title">Aurora</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Anya Tylor-Joy">
-                        <img src="../img/pPic2.jpg">
-                        <h5 class="abo-title">Anya Taylor-Joy</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Aurora">
-                        <img src="../img/pPic1.jpg">
-                        <h5 class="abo-title">Aurora</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Anya Tylor-Joy">
-                        <img src="../img/pPic2.jpg">
-                        <h5 class="abo-title">Anya Taylor-Joy</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Aurora">
-                        <img src="../img/pPic1.jpg">
-                        <h5 class="abo-title">Aurora</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Anya Tylor-Joy">
-                        <img src="../img/pPic2.jpg">
-                        <h5 class="abo-title">Anya Taylor-Joy</h5>
-                    </a>
-                </div>
-
-                <div>
-                    <a href="./kanal.html?c=Aurora">
-                        <img src="../img/pPic1.jpg">
-                        <h5 class="abo-title">Aurora</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Anya Tylor-Joy">
-                        <img src="../img/pPic2.jpg">
-                        <h5 class="abo-title">Anya Taylor-Joy</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Aurora">
-                        <img src="../img/pPic1.jpg">
-                        <h5 class="abo-title">Aurora</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Anya Tylor-Joy">
-                        <img src="../img/pPic2.jpg">
-                        <h5 class="abo-title">Anya Taylor-Joy</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Aurora">
-                        <img src="../img/pPic1.jpg">
-                        <h5 class="abo-title">Aurora</h5>
-                    </a>
-                </div>
-                <div>
-                    <a href="./kanal.html?c=Anya Tylor-Joy">
-                        <img src="../img/pPic2.jpg">
-                        <h5 class="abo-title">Anya Taylor-Joy</h5>
-                    </a>
-                </div>
-
-
-            </div>
+            <div id="abos-boxID" class="abos-box"></div>
 
             <div class="uploadV-box col-lg-8 col-sm-12">
                 <div class="hochladenBox">
@@ -265,6 +98,7 @@
         </div>
     </div>
 
+    <div id="notLogedIn" style="display: none;"></div>
 </body>
 
 </html>

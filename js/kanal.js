@@ -26,6 +26,22 @@ $(() => {
         $('.cover-box').css('background-image', `url('../img/coverImg/${data}')`);
     });
 
+    $.post('../php/kanal.php', { 'videos': c.channel }, data => {
+        data = JSON.parse(data);
+        if (data.success && data.data.length > 0) {
+            let html = '';
+            data.data.forEach(v => {
+                html += `<a href="./pVideo.html?v=${v.id}">
+                    <img loading="lazy" src="../img/thumb/${v.poster}">
+                    <h5 class="title" title="${v.title}">${v.title}</h5>
+                    </a>`;
+            });
+            $('#videosOF').html(html);
+        } else {
+            $('#videosOF').html('<p>' + c.channel + ' hat kein Video.');
+        }
+    });
+
     checkAbo();
 
     function checkAbo() {

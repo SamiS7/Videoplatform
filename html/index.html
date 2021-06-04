@@ -14,6 +14,7 @@
     <script src="../js/scroll.js"></script>
     <script src="../js/title.js"></script>
     <script src="../js/search.js"></script>
+    <script src="../js/filterVideos.js" defer></script>
     <title>Home</title>
 </head>
 
@@ -21,42 +22,11 @@
     <div class="row menu mb-5"></div>
 
     <div class="row pl-3 pr-3">
-        <h3 class="headline col-12">Meist gesehen</h3>
+        <h3 class="headline col-12">Beliebte Videos</h3>
     </div>
 
     <div class="jump-box-container video-box row mb-5">
-        <div class="row jump-box video-box">
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder1.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder2.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder1.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder2.jpg">
-                <h5 class="title">Titel</h5>
-            </a><a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder1.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder2.jpg">
-                <h5 class="title">Titel</h5>
-            </a><a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder1.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder2.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-    </div>
+        <div id="mostSeen-box" class="row jump-box video-box"></div>
         <button class="scroll-button-to-left">
             <i class="fas fa-chevron-left"></i>
         </button>
@@ -70,38 +40,7 @@
     </div>
 
     <div class="jump-box-container video-box row mb-5">
-        <div class="row jump-box video-box">
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder1.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder2.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder1.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder2.jpg">
-                <h5 class="title">Titel</h5>
-            </a><a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder1.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder2.jpg">
-                <h5 class="title">Titel</h5>
-            </a><a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder1.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-            <a href="./pVideo.html?v=videoName">
-                <img src="../img/placeholder2.jpg">
-                <h5 class="title">Titel</h5>
-            </a>
-    </div>
+        <div id="recom-box" class="row jump-box video-box"></div>
         <button class="scroll-button-to-left">
             <i class="fas fa-chevron-left"></i>
         </button>
@@ -114,38 +53,7 @@
         <h3 class="headline col-12">Neu</h3>
     </div>
 
-    <div class="new-box video-box video-box-nScroll row mb-5">
-        <a href="./pVideo.html?v=videoName">
-            <img src="../img/placeholder1.jpg">
-            <h5 class="title">Titel</h5>
-        </a>
-        <a href="./pVideo.html?v=videoName">
-            <img src="../img/placeholder2.jpg">
-            <h5 class="title">Titel</h5>
-        </a>
-        <a href="./pVideo.html?v=videoName">
-            <img src="../img/placeholder1.jpg">
-            <h5 class="title">Titel</h5>
-        </a>
-        <a href="./pVideo.html?v=videoName">
-            <img src="../img/placeholder2.jpg">
-            <h5 class="title">Titel</h5>
-        </a><a href="./pVideo.html?v=videoName">
-            <img src="../img/placeholder1.jpg">
-            <h5 class="title">Titel</h5>
-        </a>
-        <a href="./pVideo.html?v=videoName">
-            <img src="../img/placeholder2.jpg">
-            <h5 class="title">Titel</h5>
-        </a><a href="./pVideo.html?v=videoName">
-            <img src="../img/placeholder1.jpg">
-            <h5 class="title">Titel</h5>
-        </a>
-        <a href="./pVideo.html?v=videoName">
-            <img src="../img/placeholder2.jpg">
-            <h5 class="title">Titel</h5>
-        </a>
-</div>
+    <div id="mostRecent-box" class="new-box video-box video-box-nScroll row mb-5"></div>
 </body>
 
 </html>

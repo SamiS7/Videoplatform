@@ -10,18 +10,11 @@ function output($suc, $msgs)
 
 session_start();
 if (!isset($_SESSION['id'])) {
-    output(false, 'Sie sind nicht angemeldet!');
+    output(false, ['Sie sind nicht angemeldet!']);
 }
+$id = $_SESSION['id'];
 
-$db_host = 'localhost';
-$db_datenbank = 'video-projekt';
-$db_username = 'video-projekt';
-$db_password = 'passw';
-$connect = new mysqli($db_host, $db_username, $db_password, $db_datenbank);
-
-if ($connect->connect_error) {
-    die("Datenbank connection failed" . $connect->connect_error);
-}
+include 'connection.php';
 
 $profArrName = 'profileFile';
 if (isset($_FILES[$profArrName])) {
@@ -33,11 +26,14 @@ if (isset($_FILES[$profArrName])) {
     $supportedTypes = ['jpg', 'jpeg', 'png'];
     $output = [];
 
+    $x = getimagesize($sentImg);
     if (!getimagesize($sentImg)) {
         $output[] = 'Die geschickte Datei ist kein Bild!';
+        output(false, $output);
     }
     if (!in_array($imgType, $supportedTypes)) {
         $output[] = 'Profilbild muss JPG, JPEG oder PNG sein!';
+        output(false, $output);
     }
 
     $tSize = getimagesize($sentImg);
@@ -91,9 +87,11 @@ if (isset($_FILES[$coverArrName])) {
 
     if (!getimagesize($sentImg)) {
         $output[] = 'Die geschickte Datei ist kein Bild!';
+        output(false, $output);
     }
     if (!in_array($imgType, $supportedTypes)) {
         $output[] = 'Coverbild muss JPG, JPEG oder PNG sein!';
+        output(false, $output);
     }
     $tSize = getimagesize($sentImg);
     $result = $tSize[0] / $tSize[1];
@@ -134,20 +132,33 @@ if (isset($_FILES[$coverArrName])) {
 }
 
 if (isset($_FILES['video']) && isset($_FILES['thumb'])) {
+    function asArrStr($arr) {
+        $str = '[';
+        for ($i = 0; $i < count($arr) - 1; $i++) {
+            $str .= '"' . ($arr[$i] . '", ');
+        }
+        $str .= '"' . $arr[count($arr) - 1] . '"]';
+        return $str;
+    }
+
     $video = $_FILES['video'];
     $thumb = $_FILES['thumb'];
     $title = $connect->real_escape_string($_POST['title']);
     $cat = $connect->real_escape_string($_POST['cat']);
+    $cat = asArrStr(explode(';', $cat));
     $tags = $connect->real_escape_string($_POST['tags']);
+    $tags = asArrStr(explode(';', $tags));
     $vType = pathinfo($video['name'], PATHINFO_EXTENSION);
     $tType = pathinfo($thumb['name'], PATHINFO_EXTENSION);
     $output = [];
 
     if (!in_array($vType, ['mp4', 'mov', 'avi', 'webm'])) {
         $output[] = 'Thumbnail muss mp4, mov, avi oder webm sein!';
+        output(false, $output);
     }
     if (!getimagesize($thumb['tmp_name'])) {
-        $output[] = 'Die geschickte Datei ist kein Bild!';
+        $output[] = 'Die geschickte Datei ist kein Video!';
+        output(false, $output);
     }
     if (!in_array($tType, ['jpg', 'jpeg', 'png'])) {
         $output[] = 'Thumbnail muss JPG, JPEG oder PNG sein!';
@@ -160,8 +171,8 @@ if (isset($_FILES['video']) && isset($_FILES['thumb'])) {
     if ($video['size'] > 240000000) {
         $output[] = 'Das Video darf nicht größer sein als 30 MB!';
     }
-    if ($thumb['size'] > 400000) {
-        $output[] = 'Thumbnail darf nicht größer sein als 400 KB!';
+    if ($thumb['size'] > 2000000) {
+        $output[] = 'Thumbnail darf nicht größer sein als 2 MB!';
     }
 
     if (count($output) > 0) {
@@ -172,15 +183,20 @@ if (isset($_FILES['video']) && isset($_FILES['thumb'])) {
 
     if ($res = $connect->query("SELECT name FROM konto where id = '$id'")) {
         $usrName = $res->fetch_assoc()['name'];
-        $videoCount = $connect->query("SELECT * FROM Videos WHERE owner = '$id'")->num_rows;
+        $videoCount = $connect->query("SELECT id FROM Videos")->num_rows;
         $videoCount += 10;
-        while ($connect->query("SELECT * FROM Videos WHERE id = '$videoCount'")->num_rows > 0) {
+        while ($connect->query("SELECT * FROM Videos WHERE name + '.$vType' = '$videoCount.$vType'")->num_rows > 0) {
             $videoCount++;
         }
-        $insertStatement = "INSERT INTO videos VALUE('$videoCount.$vType', null, '$id', '$title', 0, '$cat', '$tags', '$videoCount.$tType', NOW())";
+        $connect->autocommit(false);
+        $insertStatement = "INSERT INTO videos VALUE('$videoCount.$vType', null, '$id', '$title', 0, '$cat', '$tags', '$videoCount.$tType', NOW(), 0)";
         if (
-            $connect->query($insertStatement) && move_uploaded_file($video['tmp_name'], "../videos/$videoCount.$vType") && move_uploaded_file($thumb['tmp_name'], "../img/thumb/$videoCount.$tType")
+            $connect->query($insertStatement) &&
+            move_uploaded_file($video['tmp_name'], "../videos/$videoCount.$vType") &&
+            move_uploaded_file($thumb['tmp_name'], "../img/thumb/$videoCount.$tType")
         ) {
+            $connect->query("INSERT INTO dailydata (video) values(LAST_INSERT_ID())");
+            $connect->commit();
             output(true, ['Ihr Video wurde erfolgreich hochgeladen!']);
         } else {
             $connect->rollback();
@@ -198,5 +214,52 @@ if (isset($_POST['myVideos'])) {
     while ($row = $res->fetch_assoc()) {
         $data[] = $row;
     }
+    if (count($data) == 0) {
+        output(false, ['Sie haben noch kein Video hochgeladen!']);
+    }
     output(true, $data);
+}
+
+if (isset($_POST['likedVideos'])) {
+    $tN = 'likedVideos';
+    getVideos($tN, $tN, $connect, $id);
+}
+
+
+if (isset($_POST['history'])) {
+    $tN = 'history';
+    getVideos($tN, $tN, $connect, $id);
+}
+
+function getVideos($name, $tableN, $connect, $id)
+{
+    $res = $connect->query("select v.id, v.poster, v.title from videos v join $tableN l on(l.video = v.id) where l.id = '$id'");
+
+    if ($res->num_rows > 0) {
+        $data = [];
+        while ($r = $res->fetch_assoc()) {
+            $data[] = $r;
+        }
+        output(true, $data);
+    }
+    $msg = '';
+    if ($name == 'history') {
+        $msg = 'Sie haben noch kein Video angeschaut!';
+    } else {
+        $msg = 'Sie haben noch keine gelikte Videos!';
+    }
+    output(false, [$msg]);
+}
+
+if (isset($_POST['abos'])) {
+    $res = $connect->query("select k.name, p.pname from konto k join profilandcoverpic p on(k.id = p.id) join channels c on (c.channel = k.id) where c.follower = $id");
+
+    if ($res->num_rows > 0) {
+        $data = [];
+        while ($r = $res->fetch_assoc()) {
+            $data[] = $r;
+        }
+        output(true, $data);
+    }
+    output(false, ['Sie haben noch niemanden abonniert!']);
 }

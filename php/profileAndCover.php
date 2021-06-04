@@ -1,13 +1,5 @@
 <?php
-function getConnect()
-{
-    $db_host = 'localhost';
-    $db_datenbank = 'video-projekt';
-    $db_username = 'video-projekt';
-    $db_password = 'passw';
-
-    return new mysqli($db_host, $db_username, $db_password, $db_datenbank);
-}
+include 'connection.php';
 
 function exitFile()
 {
@@ -24,7 +16,6 @@ if (isset($_POST['checkProfileImg'])) {
         echo 'standart.jpg';
         exitFile();
     }
-    $connect = getConnect();
 
     if ($connect->connect_error) {
         die("Datenbank connection failed" . $connect->connect_error);
@@ -60,7 +51,6 @@ if (isset($_POST['checkCoverImg'])) {
         echo 'standart.jpg';
         exitFile();
     }
-    $connect = getConnect();
 
     if ($connect->connect_error) {
         die("Datenbank connection failed" . $connect->connect_error);

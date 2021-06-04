@@ -1,14 +1,5 @@
 <?php
-$db_host = 'localhost';
-$db_datenbank = 'video-projekt';
-$db_username = 'video-projekt';
-$db_password = 'passw';
-
-$connect = new mysqli($db_host, $db_username, $db_password, $db_datenbank);
-
-if ($connect->connect_error) {
-    die("Datenbank connection failed" . $connect->connect_error);
-}
+include 'connection.php';
 
 function output($suc, $msgs)
 {
@@ -44,7 +35,7 @@ if (isset($_POST['signUpData'])) {
         $output[] = 'Das Land muss eine Länge zw. 3 - 30 haben!';
     }
 
-    if (preg_match($ePat, $signUpData->email)) {
+    if (!preg_match($ePat, $signUpData->email)) {
         $output[] = 'E-Mail muss in richtiger Form haben!';
     }
 
